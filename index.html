@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Аудит Анкета - система опросов с аутентификацией">
+    <meta name="theme-color" content="#1e1e1e">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Аудит Анкета">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%231e88e5' width='192' height='192'/><text x='50%' y='50%' font-size='120' font-weight='bold' fill='white' text-anchor='middle' dy='.3em'>A</text></svg>">
+    <title>Аудит Анкета</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Экран входа -->
+        <div id="loginScreen" class="screen active">
+            <div class="login-box">
+                <h1>🔐 Вход в систему</h1>
+                <p>Введите пароль для доступа</p>
+                <input 
+                    type="password" 
+                    id="passwordInput" 
+                    placeholder="Введите пароль" 
+                    class="input-field"
+                    autocomplete="off"
+                >
+                <button onclick="checkPassword()" class="btn btn-primary">Вход</button>
+                <div id="errorMessage" class="error-message"></div>
+            </div>
+        </div>
+
+        <!-- Экран викторины -->
+        <div id="quizScreen" class="screen">
+            <div class="quiz-container">
+                <div class="quiz-header">
+                    <h2 id="sectionTitle"></h2>
+                    <div class="progress-bar">
+                        <div id="progressFill" class="progress-fill"></div>
+                    </div>
+                    <p id="progressText"></p>
+                </div>
+
+                <div class="quiz-content">
+                    <h3 id="questionText"></h3>
+                    <div class="button-group">
+                        <button onclick="answerQuestion('Да')" class="btn btn-yes">✓ Да</button>
+                        <button onclick="answerQuestion('Нет')" class="btn btn-no">✗ Нет</button>
+                        <button onclick="skipQuestion()" class="btn btn-skip">⊘ Пропустить</button>
+                    </div>
+                </div>
+
+                <div class="quiz-footer">
+                    <button onclick="nextQuestion()" class="btn btn-secondary">Далее →</button>
+                    <button onclick="logout()" class="btn btn-logout">Выход</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Экран результатов -->
+        <div id="resultsScreen" class="screen">
+            <div class="results-container">
+                <h2>✅ Вы завершили анкету!</h2>
+                
+                <div class="score-display">
+                    <div class="score-circle">
+                        <span id="scorePercentage"></span>
+                    </div>
+                    <p id="scoreText"></p>
+                </div>
+
+                <div class="results-summary">
+                    <h3>📋 Ваши ответы:</h3>
+                    <div id="answersList" class="answers-list"></div>
+                </div>
+
+                <div class="results-actions">
+                    <button onclick="downloadResults()" class="btn btn-primary">📥 Скачать результаты</button>
+                    <button onclick="restartQuiz()" class="btn btn-secondary">🔄 Начать заново</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Регистрация service worker для PWA
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js')
+                .then(reg => console.log('Service Worker зарегистрирован'))
+                .catch(err => console.log('Ошибка регистрации Service Worker:', err));
+        }
+    </script>
+</body>
+</html>
